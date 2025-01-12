@@ -1,0 +1,64 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.1'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.desafio.apilocalizacao'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/release' }
+	maven { url 'https://jitpack.io' }
+	maven { url "https://repo.opensourceagility.com/release/" }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:2.4.0'
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	compileOnly 'org.projectlombok:lombok:1.18.36'
+	annotationProcessor 'org.projectlombok:lombok:1.18.36'
+	testCompileOnly 'org.projectlombok:lombok:1.18.36'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.36'
+	implementation 'com.fasterxml.jackson:jackson-bom:2.10.2'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.15.2'
+	implementation 'org.hibernate:hibernate-core:6.3.0.Final'
+	implementation 'javax.persistence:javax.persistence-api:2.2'
+
+	// Definindo a versão do Spring Cloud AWS
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+	implementation 'com.amazonaws:aws-java-sdk-core:1.12.120'
+	implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.12.120'
+
+	implementation platform('org.springframework.data:spring-data-bom:2022.0.0')
+	implementation 'org.springframework.data:spring-data-jpa'
+	implementation 'io.github.boostchicken:spring-data-dynamodb:5.2.5'
+
+	implementation 'com.amazonaws:aws-java-sdk-sns:1.12.120'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws-messaging:2.2.6.RELEASE'
+	implementation 'com.amazonaws:aws-java-sdk-sqs:1.12.120'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws-messaging:2.2.6.RELEASE'
+	implementation 'org.springframework:spring-messaging:5.3.29'
+
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.2.0'
+	implementation 'io.github.openfeign:feign-jackson:9.3.1'
+
+
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
