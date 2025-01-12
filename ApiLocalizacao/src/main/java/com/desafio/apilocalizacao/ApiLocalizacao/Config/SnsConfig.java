@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class SnsConfig {
     @Bean
     public AmazonSNS amazonSNS() {
-        BasicAWSCredentials awsCredentials = new BasicAWSCredentials("<>", "<>");
+        BasicAWSCredentials awsCredentials = new BasicAWSCredentials("", "");
         return AmazonSNSClientBuilder.standard()
                 .withRegion("us-east-1") // Substitua pela sua região
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))

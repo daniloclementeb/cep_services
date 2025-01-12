@@ -5,7 +5,9 @@ import com.desafio.apilocalizacao.ApiLocalizacao.model.ConsultaCEPRequest;
 import com.desafio.apilocalizacao.ApiLocalizacao.model.ConsultaCEPResponse;
 import com.desafio.apilocalizacao.ApiLocalizacao.model.SolicitacaoCepDTO;
 import com.desafio.apilocalizacao.ApiLocalizacao.repository.CepRepository;
+import com.desafio.apilocalizacao.ApiLocalizacao.repository.SolicitacaoCepCacheRepository;
 import com.desafio.apilocalizacao.ApiLocalizacao.repository.SolicitacaoCepRepository;
+import com.desafio.apilocalizacao.ApiLocalizacao.util.GenericJsonConverter;
 import com.desafio.apilocalizacao.ApiLocalizacao.util.JSONConverter;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j;
@@ -23,17 +25,23 @@ public class CepServices {
     SolicitacaoCepRepository solicitacaoCepRepository;
 
     @Autowired
+    SolicitacaoCepCacheRepository solicitacaoCepCacheRepository;
+
+    @Autowired
     CepRepository repository;
 
     @Autowired
     SnsService sns;
 
     @Autowired
-    JSONConverter json;
+    GenericJsonConverter json;
 
     public ConsultaCEPResponse consultaCEP(ConsultaCEPRequest request){
         //busca no cache/banco o cep
-        SolicitacaoCepDTO solicitacao= solicitacaoCepRepository.findByCep(request.getCep()).orElse(null);
+        SolicitacaoCepDTO solicitacao= solicitacaoCepCacheRepository.findByCep(request.getCep()).orElse(null);
+        if (solicitacao == null) {
+            solicitacao= solicitacaoCepRepository.findByCep(request.getCep()).orElse(null);
+        }
 
         if (solicitacao != null) {
             if (solicitacao.getStatus().equalsIgnoreCase("pendente")) {
@@ -68,7 +76,7 @@ public class CepServices {
                     .build();
 
             SolicitacaoCepDTO save = solicitacaoCepRepository.save(entity);
-            sns.publishMessage(json.toJSON(save));
+            sns.publishMessage(json.convert(save));
             return ConsultaCEPResponse.builder()
                     .id(save.getIdentificador())
                     .status(save.getStatus())

@@ -23,7 +23,7 @@ public class SqsConfig {
     @Bean
     @Primary
     public AmazonSQSAsync amazonSQSAsync() {
-        BasicAWSCredentials awsCredentials = new BasicAWSCredentials("<>", "<>");
+        BasicAWSCredentials awsCredentials = new BasicAWSCredentials("", "");
         return AmazonSQSAsyncClientBuilder.standard()
                 .withRegion("us-east-1") // Substitua pela sua região
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))

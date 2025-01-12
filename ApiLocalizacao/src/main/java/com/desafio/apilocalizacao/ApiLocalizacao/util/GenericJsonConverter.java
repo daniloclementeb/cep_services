@@ -3,12 +3,14 @@ package com.desafio.apilocalizacao.ApiLocalizacao.util;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+@Component
 public class GenericJsonConverter implements DynamoDBTypeConverter<String, Object> {
 
-    private static final ObjectMapper OBJECT_MAPPER = Jackson2ObjectMapperBuilder.json().build(); // Jackson ObjectMapper para conversão de objetos
+    private static final ObjectMapper OBJECT_MAPPER = Jackson2ObjectMapperBuilder.json().build();
 
     @Override
     public String convert(Object object) {
